@@ -4,12 +4,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navigation from './sections/Navigation';
 import HeroSection from './sections/HeroSection';
-import ThreatSection from './sections/ThreatSection';
-import SensorSection from './sections/SensorSection';
-import PlatformSection from './sections/PlatformSection';
-import DeploymentSection from './sections/DeploymentSection';
-import UseCasesSection from './sections/UseCasesSection';
-import SpecsSection from './sections/SpecsSection';
+import DashboardPreviewSection from './sections/DashboardPreviewSection';
+import ScienceSection from './sections/ScienceSection';
+import FeaturesSection from './sections/FeaturesSection';
+import BusinessModelSection from './sections/BusinessModelSection';
+import PricingSection from './sections/PricingSection';
 import ContactSection from './sections/ContactSection';
 import Dashboard from './pages/Dashboard';
 
@@ -64,13 +63,12 @@ function LandingPage() {
       <Navigation />
       <main className="relative">
         <HeroSection className="z-10" />
-        <ThreatSection className="z-20" />
-        <SensorSection className="z-30" />
-        <PlatformSection className="z-40" />
-        <DeploymentSection className="z-50" />
-        <UseCasesSection className="z-60" />
-        <SpecsSection className="z-70" />
-        <ContactSection className="z-80" />
+        <DashboardPreviewSection className="z-20" />
+        <ScienceSection className="z-30" />
+        <FeaturesSection className="z-40" />
+        <BusinessModelSection className="z-50" />
+        <PricingSection className="z-60" />
+        <ContactSection className="z-70" />
       </main>
     </div>
   );

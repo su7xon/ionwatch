@@ -1,7 +1,7 @@
 import { useEffect, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Activity } from 'lucide-react';
+import { ArrowRight, Activity, Zap, ActivitySquare, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -106,7 +106,6 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
           pin: true,
           scrub: 0.6,
           onLeaveBack: () => {
-            // Reset all elements to visible when scrolling back to top
             gsap.set([headlineRef.current, subheadlineRef.current, ctaRef.current, dataCardRef.current, statusRef.current], {
               opacity: 1, x: 0, y: 0
             });
@@ -115,7 +114,6 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
         },
       });
 
-      // Phase 3: EXIT (70% - 100%)
       scrollTl.fromTo(
         headlineRef.current,
         { x: 0, opacity: 1 },
@@ -212,7 +210,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
         style={{ zIndex: 5, opacity: 0 }}
       >
         <span className="font-mono text-[10px] tracking-[0.14em] uppercase text-secondary-light">
-          System Status
+          Solar Cycle 25 &middot; India NavIC Intelligence &middot; Real-Time
         </span>
         <div className="flex items-center gap-2">
           <Activity size={14} className="text-[#FF6A00]" />
@@ -231,10 +229,12 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
           ref={headlineRef}
           className="text-[clamp(36px,5vw,72px)] font-bold text-primary-light leading-[0.95]"
         >
-          <span className="word inline-block">India's</span>{' '}
-          <span className="word inline-block">real-time</span>{' '}
-          <span className="word inline-block">ionospheric</span>{' '}
-          <span className="word inline-block accent-color">shield.</span>
+          <span className="word inline-block">NavIC</span>{' '}
+          <span className="word inline-block">was</span>{' '}
+          <span className="word inline-block">flying</span>{' '}
+          <span className="word inline-block text-secondary-light">blind.</span><br/>
+          <span className="word inline-block">Not</span>{' '}
+          <span className="word inline-block accent-color">anymore.</span>
         </h1>
       </div>
 
@@ -248,42 +248,48 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
           className="text-lg text-secondary-light leading-relaxed mb-8"
           style={{ opacity: 0 }}
         >
-          Monitor scintillation before it disrupts navigation, timing, and telecom.
+          IonWatch monitors India's ionosphere in real time — computing S4, σφ, and TEC from GNSS signals to protect navigation, telecoms, and aviation during solar storms.
         </p>
 
         <div ref={ctaRef} className="flex items-center gap-6" style={{ opacity: 0 }}>
-          <button className="group flex items-center gap-3 px-6 py-3 border border-[#FF6A00] text-[#FF6A00] font-mono text-sm tracking-[0.1em] uppercase hover:bg-[#FF6A00] hover:text-white transition-all accent-glow">
-            Request a pilot
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </button>
-          <Link to="/dashboard" className="flex items-center gap-2 text-secondary-light hover:text-primary-light transition-colors font-mono text-sm tracking-[0.05em]">
+          <Link to="/dashboard" className="group flex items-center gap-3 px-6 py-3 border border-[#FF6A00] text-[#FF6A00] font-mono text-sm tracking-[0.1em] uppercase hover:bg-[#FF6A00] hover:text-white transition-all accent-glow">
             View live dashboard
-            <ArrowRight size={14} />
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
+          <button onClick={() => document.getElementById('pricing')?.scrollIntoView({behavior: 'smooth'})} className="flex items-center gap-2 text-secondary-light hover:text-primary-light transition-colors font-mono text-sm tracking-[0.05em]">
+            See Pricing
+            <ArrowRight size={14} />
+          </button>
         </div>
       </div>
 
       {/* Data Card */}
       <div
         ref={dataCardRef}
-        className="absolute right-[8vw] bottom-[10vh] w-[28vw] min-h-[22vh] bg-[#0E1116]/80 border border-white/10 p-6"
+        className="absolute right-[8vw] bottom-[10vh] w-[28vw] min-h-[22vh] bg-[#0E1116]/80 border border-white/10 p-6 backdrop-blur-sm"
         style={{ zIndex: 5, opacity: 0 }}
       >
-        <h3 className="font-mono text-xs tracking-[0.14em] uppercase text-secondary-light mb-6">
-          Live Network Snapshot
+        <h3 className="font-mono text-xs tracking-[0.14em] uppercase text-secondary-light mb-6 flex items-center gap-2">
+          <Globe size={14} /> Live Network Snapshot
         </h3>
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-secondary-light">Active nodes</span>
-            <span className="font-mono text-lg text-primary-light">12</span>
+          <div className="flex justify-between items-center border-b border-white/5 pb-2">
+            <div className="flex items-center gap-2 text-sm text-secondary-light">
+              <Zap size={14} className="text-[#FF6A00]"/> Kp Index
+            </div>
+            <span className="font-mono text-lg text-primary-light">0.0</span>
+          </div>
+          <div className="flex justify-between items-center border-b border-white/5 pb-2">
+            <div className="flex items-center gap-2 text-sm text-secondary-light">
+              <ActivitySquare size={14} className="text-primary-light"/> Max S4 India
+            </div>
+            <span className="font-mono text-lg text-primary-light">0.082</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-sm text-secondary-light">Last alert</span>
-            <span className="font-mono text-sm text-[#FF6A00]">7 min ago</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-secondary-light">Coverage</span>
-            <span className="font-mono text-sm text-primary-light">South + Central India</span>
+            <div className="flex items-center gap-2 text-sm text-secondary-light">
+              <Activity size={14} className="text-primary-light"/> VTEC (TECU)
+            </div>
+            <span className="font-mono text-lg text-primary-light">31</span>
           </div>
         </div>
       </div>
