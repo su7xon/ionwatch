@@ -1,7 +1,7 @@
-import { useEffect, useRef, useLayoutEffect } from 'react';
+import { useEffect, useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Activity, Zap, ActivitySquare, Globe } from 'lucide-react';
+import { ArrowRight, Activity, Zap, ActivitySquare, Globe, Loader2, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -19,6 +19,20 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
   const dataCardRef = useRef<HTMLDivElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<SVGRectElement>(null);
+
+  // CTA State
+  const [actionState, setActionState] = useState<{ loading: boolean, message: string | null }>({ loading: false, message: null });
+
+  const handleCTAClick = () => {
+    setActionState({ loading: true, message: null });
+    // Simulate API Call delay
+    setTimeout(() => {
+      setActionState({ loading: false, message: `Pilot Request Submitted! An agent will contact you shortly.` });
+      setTimeout(() => {
+        setActionState(prev => ({ ...prev, message: null }));
+      }, 4000);
+    }, 1500);
+  };
 
   // Load animation (auto-play on mount)
   useEffect(() => {
@@ -166,6 +180,14 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
       id="hero"
       className={`relative w-full h-screen overflow-hidden ${className}`}
     >
+      {/* Toast Notification */}
+      {actionState.message && (
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[200] bg-[#0E1116] border border-[#10b981] text-[#10b981] px-6 py-4 rounded shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-5">
+          <Info size={18} />
+          <span className="text-sm font-mono tracking-wider">{actionState.message}</span>
+        </div>
+      )}
+
       {/* Background Image */}
       <img
         ref={imageRef}
@@ -252,7 +274,12 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
         </p>
 
         <div ref={ctaRef} className="flex items-center gap-6" style={{ opacity: 0 }}>
-          <Link to="/dashboard" className="group flex items-center gap-3 px-6 py-3 border border-[#FF6A00] text-[#FF6A00] font-mono text-sm tracking-[0.1em] uppercase hover:bg-[#FF6A00] hover:text-white transition-all accent-glow">
+          <button onClick={handleCTAClick} disabled={actionState.loading} className="group flex items-center gap-3 px-6 py-3 border border-[#FF6A00] text-[#FF6A00] font-mono text-sm tracking-[0.1em] uppercase hover:bg-[#FF6A00] hover:text-white transition-all accent-glow disabled:opacity-50 disabled:cursor-not-allowed">
+            {actionState.loading ? <Loader2 size={16} className="animate-spin" /> : null}
+            {actionState.loading ? 'Connecting...' : 'Request a pilot'}
+            {!actionState.loading && <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />}
+          </button>
+          <Link to="/dashboard" className="flex items-center gap-2 text-secondary-light hover:text-primary-light transition-colors font-mono text-sm tracking-[0.05em]">
             View live dashboard
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
